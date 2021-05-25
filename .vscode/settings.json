@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "venv\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\yeami\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+    "python.analysis.completeFunctionParens": true
 }

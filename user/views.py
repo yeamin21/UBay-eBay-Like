@@ -23,3 +23,8 @@ def login_(request):
                 return redirect('/')
 
     return render(request, template_name='user/login.html')
+
+
+def logout_(request):
+    logout(request)
+    return redirect('/')
