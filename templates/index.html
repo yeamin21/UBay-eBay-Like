@@ -33,7 +33,7 @@
                 {% if request.user.is_authenticated %}
                     {{request.user.email}}
                     <li class="nav-item">
-                        <a class="nav-link" href={%url 'gallery:listself' request.user.email %}>Your Items</a>
+                        <a class="nav-link" href={%url 'gallery:listself' request.user.email %}>My Posted Items</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href={%url 'user:logout' %}>Logout</a>
