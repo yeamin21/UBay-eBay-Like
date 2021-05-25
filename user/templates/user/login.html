@@ -1,0 +1,7 @@
+{%block login%}
+<form method="POST">
+    {%csrf_token%}
+    <input placeholder="email" name="email" type="email">
+    <input type="submit">
+</form>
+{% endblock login %}
