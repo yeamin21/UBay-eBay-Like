@@ -13,22 +13,33 @@ from gallery.models import Product
 def place_bid(request):
     bid_product = request.POST.get('bid-product')
     bid_amount = decimal.Decimal(request.POST['bid-amount'])
-    print(type(bid_amount))
     now = datetime.datetime.now().replace(tzinfo=datetime.timezone.utc)
     product = Product.objects.get(pk=bid_product)
     if now <= product.ends_at:
         if bid_amount >= product.minimum_bid_price:
             last_bid = Bid.objects.filter(product=product).order_by('-created_at').first()
             if last_bid is not None:
-
                 if bid_amount > last_bid.bid_amount:
-                    bid = Bid.objects.create(bidder=request.user, bid_amount=bid_amount, product=product)
-                    bid.save()
+                    bid,created = Bid.objects.update_or_create(bidder=request.user, product=product)
+                    if not created:
+                        bid.bid_amount = bid_amount
+                        bid.save()
+                        return HttpResponse('<h1>BID SUCCESSFULLY Updated</h1>')
+                    else:
+                        bid.bid_amount = bid_amount
+                        bid.save()
+
                 else:
                     return HttpResponse('<h1>Bid has to be more than the last bid</h1>')
             else:
-                bid = Bid.objects.create(bidder=request.user, bid_amount=bid_amount, product=product)
-                bid.save()
+                bid, created = Bid.objects.update_or_create(bidder=request.user, product=product)
+                if not created:
+                    bid.bid_amount = bid_amount
+                    bid.save()
+                    return HttpResponse('<h1>BID SUCCESSFULLY Updated</h1>')
+                else:
+                    bid.bid_amount = bid_amount
+                    bid.save()
 
             return HttpResponse('<h1>BID SUCCESSFULLY PLACED</h1>')
         else:
