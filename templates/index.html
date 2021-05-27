@@ -1,10 +1,18 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src="https://use.fontawesome.com/ed549fa579.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'gallery/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'user/style.css' %}">
 </head>
 
 
@@ -14,40 +22,44 @@
 <header>
 
     <nav>
-    <div>
-         <ul>
-            <li>
-                <a href={% url 'gallery:list' %}>Home</a>
-            </li>
-             {% if request.user.is_authenticated %}
+        <div>
+            <ul>
+                <li>
+                    <a href={% url 'gallery:list' %}>Home</a>
+                </li>
+                {% if request.user.is_authenticated %}
 
-                <li >
-                    <a href={% url 'gallery:listself' request.user.email %}>My Posted Items</a>
-                </li>
-             {% endif %}
-        </ul>
-    </div>
-       <div>
-           <ul>
-               {% if request.user.is_authenticated %}
-                 <li>
-                 {{ request.user.email }}
-                 </li>
-                <li >
-                    <a  href={% url 'user:logout' %}>Logout</a>
-                </li>
-            {% else %}
-                <li >
-                    <a  href={% url 'user:login' %}>Login</a>
-                </li>
-            {% endif %}</ul>
-       </div>
+                    <li>
+                        <a href={% url 'gallery:listself' request.user.email %}>My Posted Items</a>
+                    </li>
+                    <li>
+                        <a class="add-item" href="{% url 'gallery:create' %}">Add New Item</a>
+                    </li>
+
+                {% endif %}
+            </ul>
+        </div>
+        <div>
+            <ul>
+                {% if request.user.is_authenticated %}
+                    <li>
+                        {{ request.user.email }}
+                    </li>
+                    <li>
+                        <a href={% url 'user:logout' %}>Logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href={% url 'user:login' %}>Login</a>
+                    </li>
+                {% endif %}</ul>
+        </div>
 
     </nav>
 </header>
 <main>
     {% if request.user.is_authenticated %}
-        <a href="{% url 'gallery:create' %}">Add New</a>
+
         {% block products %}
         {% endblock products %}
         {% block product_details %}
@@ -59,39 +71,26 @@
     {% else %}
         {% block login %}
         {% endblock login %}
-
     {% endif %}
 
 </main>
+<div class="shape"></div>
 </body>
+<footer>
+    <div class="my-links">
 
-<style>
-    nav{
-        background: rgba(147, 177, 217, 0.8);
-        display: flex;
-        justify-content: space-between;
-    }
-    nav a{
-        text-decoration: none;
-         padding: 1rem;
-    }
-    nav li{
-        display: inline-block;
-
-    }
-    nav li a:hover{
-        color: white;
-    }
-    body{
-        display: flex;
-        flex-direction: column;
-    }
-    header{
-        flex: 1;
-    }
-    main{
-        flex: 5;
-    }
-
-</style>
+        <a href="https://www.facebook.com/yeamin21" style="color: #12579c"><i class="fa fa-facebook-square fa-2x"
+                                                                              aria-hidden="true"></i></a>
+        <a href="https://github.com/yeamin21" style="color:#181616"><i class="fa fa-github-square fa-2x"
+                                                                       aria-hidden="true"></i></a>
+        <a href="https://www.linkedin.com/in/yeamin21/" style="color: #084074"><i class="fa fa-linkedin-square fa-2x"
+                                                                                  aria-hidden="true"></i></a>
+        <a href="mailto:yeamin21@outlook.com" style="color: #398bd0"><i class="fa fa-envelope-square fa-2x"
+                                                                        aria-hidden="true"></i></a>
+    </div>
+    <div class="project-info">
+        <p>This is a python web app written in django. The app has simple authentication system where entering email will automatically authorize existing user or create new user if none found. Users can place bid, update their bid, check other bids on a product. Users can create their own product listing with minimum bidding price and expiry datetime. Bid on a item has to be greater than the or equal to the minimum bid and has to be greater than the last bid.</p>
+    </div>
+    <div class="last"><a href="https://github.com/yeamin21/UBay-eBay-Like"><i class="fa fa-book" aria-hidden="true"></i> Repository Link</a></div>
+</footer>
 </html>

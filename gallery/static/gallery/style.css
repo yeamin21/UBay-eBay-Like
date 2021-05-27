@@ -1,0 +1,256 @@
+:root {
+    --primary-color: rgba(245, 92, 71, 0.82);
+    --secondary-color: rgba(159, 230, 160, 0.87);
+    --shado-box: 0 4px 8px 0 rgba(227, 139, 139, 0.99)
+}
+
+* {
+    font-family: 'Comfortaa', cursive;
+    margin: 0;
+}
+
+nav {
+    box-shadow: var(--shado-box);
+    background-color: var(--primary-color);
+    display: flex;
+    height: 60px;
+    margin: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1em;
+
+}
+
+nav a {
+    text-decoration: none;
+    padding: 1rem;
+    color: #ffffff;
+}
+
+nav li {
+    display: inline-block;
+
+}
+
+nav li a:hover {
+    color: var(--secondary-color);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.78);
+}
+
+header {
+    flex: 1;
+}
+
+main {
+    flex: 5;
+}
+
+.shape {
+    background: darkorange;
+    height: 100%;
+    width: 100%;
+    z-index: -3;
+    position: absolute;
+    clip-path: polygon(100% 0, 74% 56%, 100% 100%);
+    top: 5%;
+
+}
+
+footer {
+    border-radius: 1em;
+    padding: 1rem;
+    display: block;
+    box-shadow: var(--shado-box);
+    margin: 20px;
+    color: rgba(255, 255, 255, 0.83);
+    display: flex;
+    flex-direction: row;
+    min-height: 200px;
+    background-color: var(--primary-color);
+
+}
+
+footer .my-links{
+    flex: .4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    border-right: 4px solid rgba(250, 250, 250, 0.56);
+}
+footer .project-info{
+    flex: 2;
+    padding: 2rem;
+}
+footer .last {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer .last a{
+    color: rgba(255, 255, 255, 0.83);
+    text-decoration: none;
+}
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
+    grid-auto-rows: 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-list .product {
+    box-shadow: var(--shado-box);
+    background: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 350px;
+    padding: 2rem;
+    position: relative;
+    text-align: center;
+
+}
+
+.product-list img {
+    width: 100%;
+    height: 250px;
+}
+
+.product .title {
+    text-decoration: none;
+    font-size: 1.5rem;
+    color: #0fb2c7;
+
+}
+
+.product .details {
+    padding: 1rem;
+}
+
+.product .title:hover {
+    color: orangered;
+}
+
+.details p {
+    display: inline-block;
+    overflow: hidden;
+    width: 18rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.product .expired {
+    background: #e85b5b;
+    border-radius: 1.25em;
+    padding: .4rem;
+    color: #e8e0e0;
+    position: absolute;
+    top: -2%;
+    right: -5%;
+}
+
+.product-details {
+    display: grid;
+    padding: 3rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    justify-items: center;
+}
+
+.product-details > div {
+    padding: 2rem;
+}
+
+.product-details .product img {
+    width: 400px;
+    height: 400px;
+    padding: 2rem;
+    box-shadow: var(--shado-box);
+
+}
+
+.product-details .product-info {
+    box-shadow: var(--shado-box);
+    position: relative;
+
+}
+.product-info h3{
+   padding: 1rem;
+}
+
+
+input {
+    height: 2rem;
+    border-radius: 0;
+}
+
+input[type='number'] {
+    width: 200px;
+
+
+}
+
+.bids {
+    width: 100%;
+    box-shadow: var(--shado-box);
+    overflow-y: auto;
+}
+
+.bid {
+    position: absolute;
+    padding: 2rem;
+    bottom: 0%;
+}
+
+table {
+    text-align: center;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
+.product-add form {
+    width: 30rem;
+    height: 40rem;
+    overflow-y: auto;
+    margin: auto;
+    box-shadow: var(--shado-box);
+    padding: 2rem;
+    text-align: center;
+}
+
+label {
+    display: block;
+
+
+}
+
+.product-add input {
+    width: 20rem;
+    height: 2rem;
+    margin: 1rem;
+}

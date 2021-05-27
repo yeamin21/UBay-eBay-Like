@@ -1,17 +1,19 @@
 {%extends 'index.html'%}
 {%block login%}
 
-<form method="POST">
+    <div class="signin">
+    <form method="POST">
     {%csrf_token%}
     <h1>Please sign in</h1>
 
-    <div >
-        <input type="email" name="email"  id="floatingInput" placeholder="name@example.com">
-        <label for="floatingInput">Email address</label>
-    </div>
 
-    <button  type="submit">Sign in</button>
+        <label for="floatingInput">Email address</label>
+        <input type="email" name="email"  id="floatingInput" placeholder="name@example.com">
+        <button  type="submit">Sign in</button>
 
 </form>
+    </div>
+
+
 
 {% endblock login %}

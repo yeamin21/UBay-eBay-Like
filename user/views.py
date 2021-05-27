@@ -1,11 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.views import generic
-
-
-# def home(request):
-
-#     return render(request, template_name='index.html')
 
 
 def login_(request):
@@ -15,7 +9,7 @@ def login_(request):
         user = authenticate(request, email=email)
 
         if user is not None:
-            print(user)
+
             login(request, user)
             if next:
                 return redirect(next)
