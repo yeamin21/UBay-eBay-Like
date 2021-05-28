@@ -9,44 +9,39 @@
             const ctx = document.getElementById('chart').getContext('2d');
 
             // Sample data
-            const chartData = {{ chart_data | safe }}
-            const chartData_active=   {{ active_bids | safe }}
-
-            var colors = []
-            var colors1 = []
-            var dynamicColors = function() {
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            return "rgb(" + r + "," + g + "," + b + ")";
-         };
-
-
+            const chartData =
+            {{ all_bid | safe }}
+            const chartData_active =
+            {{ active_bids | safe }}
+            const set = new Set()
+            console.log(chartData)
+            console.log(chartData_active)
             chartData.forEach((d) => {
-                    d.x = new Date(d.created_at__date)
-                    d.y = d.total
-                });
 
+                d.y = d.count
+            });
 
             chartData_active.forEach((d) => {
-                    d.x = new Date(d.created_at__date)
-                    d.y = d.total
-                });
-            chartData_active.forEach((d) => {
-                    d.x = new Date(d.created_at__date)
-                    d.y = d.total
-                });
-            // Render the chart
+
+                d.y = d.count
+            });
+
+            Object.values(chartData).map(v => set.add(v.created_at__date))
+
+            Object.values(chartData_active).map(v => set.add(v.created_at__date))
+            let labels = Array.from(set);
+
             const chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
+
                     datasets: [
                         {
                             label: 'bids created',
                             data: chartData,
                             backgroundColor: 'rgba(245, 92, 71, 0.82)',
                         },
-                           {
+                        {
                             label: 'bids active',
                             data: chartData_active,
                             backgroundColor: 'rgba(87,199,119,0.82)',
@@ -59,14 +54,8 @@
                     scales: {
                         xAxes: [
                             {
-                                type: 'time',
-                                time: {
-                                    unit: 'day',
-                                    round: 'day',
-                                    displayFormats: {
-                                        day: 'MMM D',
-                                    },
-                                },
+
+                                labels: labels,
                             },
                         ],
                         yAxes: [
@@ -88,6 +77,8 @@
         <canvas style="margin-bottom: 30px; width: 60%; height: 50%;" id="chart"></canvas>
     </div>
     <h2>No of active bid: {{ no_active_bid }} </h2>
+    <h2>Active bid amount: {{ active_bid_total.max_bid__sum }}</h2>
+
 
     {{ block.super }}
 {% endblock %}

@@ -4,7 +4,7 @@ import json
 from django.contrib import admin
 # Register your models here.
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Count
+from django.db.models import Count, Max, Sum
 
 from bid.models import Bid
 from gallery.models import Product
@@ -16,15 +16,18 @@ class BidAdmin(admin.ModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         now = datetime.datetime.now().replace(tzinfo=datetime.timezone.utc)
-        total_bid = Product.objects.values('created_at__date').annotate(total=Count('id'))
-        active_bids = Bid.objects.values('created_at__date').annotate(total=Count('id')).filter(product__ends_at__gt=now)
-        print(active_bids)
-        # Serialize and attach the chart data to the template context
-        as_json = json.dumps(list(total_bid), cls=DjangoJSONEncoder)
-        extra_context = extra_context or {"chart_data": as_json}
+        all_bid = Product.objects.values('created_at__date').annotate(count=Count('id'))
+        q = Bid.objects.values('created_at__date','product').filter(product__ends_at__gt=now)\
+            .annotate(count = Count('bid_amount'))
+        #.aggregate(count=Count('max'))
+        active_bids = q
+        extra_context = extra_context or {}
+        extra_context['all_bid'] = json.dumps(list(all_bid), cls=DjangoJSONEncoder)
+        extra_context['no_active_bid'] = Bid.objects.filter(product__ends_at__gt=now).count()
+        extra_context['active_bids'] = json.dumps(list(active_bids), cls=DjangoJSONEncoder)
+        max_bids= Bid.objects.values('product').filter(product__ends_at__gt=now).annotate(max_bid=Max('bid_amount'))
+        extra_context['active_bid_total']  =  max_bids.aggregate(Sum('max_bid'))
 
-        extra_context['active_bid'] = Bid.objects.filter(product__ends_at__gt=now).count()
-        extra_context['active_bids']= json.dumps(list(active_bids), cls=DjangoJSONEncoder)
         # Call the superclass changelist_view to render the page
         return super().changelist_view(request, extra_context=extra_context)
 
