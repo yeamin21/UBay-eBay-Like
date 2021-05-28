@@ -12,12 +12,18 @@ class Migration(migrations.Migration):
     dependencies = [
         ('gallery', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('bid', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='product',
-            name='auctoneer',
+            model_name='bid',
+            name='bidder',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='bid',
+            name='product',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gallery.product'),
         ),
     ]
