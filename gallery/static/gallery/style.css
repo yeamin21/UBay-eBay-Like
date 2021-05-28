@@ -33,7 +33,7 @@ nav li {
 }
 
 nav li a:hover {
-    color: var(--secondary-color);
+    color: #17ec55;
 }
 
 body {
