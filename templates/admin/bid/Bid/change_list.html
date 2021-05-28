@@ -1,0 +1,93 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+{% block extrahead %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('chart').getContext('2d');
+
+            // Sample data
+            const chartData = {{ chart_data | safe }}
+            const chartData_active=   {{ active_bids | safe }}
+
+            var colors = []
+            var colors1 = []
+            var dynamicColors = function() {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            return "rgb(" + r + "," + g + "," + b + ")";
+         };
+
+
+            chartData.forEach((d) => {
+                    d.x = new Date(d.created_at__date)
+                    d.y = d.total
+                });
+
+
+            chartData_active.forEach((d) => {
+                    d.x = new Date(d.created_at__date)
+                    d.y = d.total
+                });
+            chartData_active.forEach((d) => {
+                    d.x = new Date(d.created_at__date)
+                    d.y = d.total
+                });
+            // Render the chart
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    datasets: [
+                        {
+                            label: 'bids created',
+                            data: chartData,
+                            backgroundColor: 'rgba(245, 92, 71, 0.82)',
+                        },
+                           {
+                            label: 'bids active',
+                            data: chartData_active,
+                            backgroundColor: 'rgba(87,199,119,0.82)',
+                        },
+
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        xAxes: [
+                            {
+                                type: 'time',
+                                time: {
+                                    unit: 'day',
+                                    round: 'day',
+                                    displayFormats: {
+                                        day: 'MMM D',
+                                    },
+                                },
+                            },
+                        ],
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true,
+                                },
+                            },
+                        ],
+                    },
+                },
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div style="width: 80%;">
+        <canvas style="margin-bottom: 30px; width: 60%; height: 50%;" id="chart"></canvas>
+    </div>
+    <h2>No of active bid: {{ no_active_bid }} </h2>
+
+    {{ block.super }}
+{% endblock %}

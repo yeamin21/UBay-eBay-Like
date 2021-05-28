@@ -6,7 +6,7 @@ from user.models import User
 
 
 class Product(models.Model):
-    # Product Name, Product Description, Product Photo, Minimum Bid Price, and Auction End DateTime
+    # Bid Name, Bid Description, Bid Photo, Minimum Bid Price, and Auction End DateTime
     name = models.CharField(max_length=30)
     description = models.TextField()
     photo = models.ImageField(upload_to='product/')
@@ -14,7 +14,7 @@ class Product(models.Model):
     ends_at = models.DateTimeField()
     auctoneer = models.ForeignKey(User, on_delete=models.CASCADE)
     is_expired = models.BooleanField(default=False)
-
+    created_at = models.DateTimeField(auto_now=True, null=True)
     @property
     def is_expired(self):
         if datetime.datetime.now().replace(tzinfo=datetime.timezone.utc) > self.ends_at:
