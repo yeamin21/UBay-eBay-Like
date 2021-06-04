@@ -2,6 +2,11 @@
 
 ## an ebay like ecommerce site where users can post items and other users can bid on the item. If the auction time expired the maximum bid wins the auction.
 ## live demo: https://ubayy.herokuapp.com/
+
+## admin dashboard: https://ubayy.herokuapp.com/admin/
+
+#### admin email: ```admin@mail.com```
+#### admin password: ```root```
 ### Homepage
 
 ![product page](https://github.com/yeamin21/ubayy/blob/main/docs/Screenshot%202021-05-29%20093842.png?raw=true)
