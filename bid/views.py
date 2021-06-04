@@ -27,7 +27,7 @@ def place_bid(request):
                     if not created:
                         bid.bid_amount = bid_amount
                         bid.save()
-                        return redirect(to=request.META['HTTP_REFERER']+'?status=added')
+                        return redirect(to=request.META['HTTP_REFERER']+'?status=updated')
                     else:
                         bid.bid_amount = bid_amount
                         bid.save()
