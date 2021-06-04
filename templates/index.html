@@ -7,29 +7,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="a user bidding site">
     <title>ubayy</title>
-    <link rel="shortcut icon" type="image/jpg" href="{% static 'favicon.ico' %}"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" type="image/jpg" href="{% static 'favicon.ico' %}" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <script src="https://use.fontawesome.com/ed549fa579.js"></script>
+    <script src="{% static '/admin/js/core.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'admin/css/widgets.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'gallery/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'user/style.css' %}">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+        integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+        integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
 </head>
 
 
 <body>
 
 
-<header>
+    <header>
 
-    <nav>
-        <div>
-            <ul>
-                <li>
-                    <a href={% url 'gallery:list' %}>Home</a>
-                </li>
-                {% if request.user.is_authenticated %}
+
+        <div class="nav">
+            <div>
+                <ul>
+                    <li>
+                        <a href={% url 'gallery:list' %}>Home</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
 
                     <li>
                         <a href={% url 'gallery:listself' request.user.email %}>My Posted Items</a>
@@ -38,29 +50,32 @@
                         <a class="add-item" href="{% url 'gallery:create' %}">Add New Item</a>
                     </li>
 
-                {% endif %}
-            </ul>
-        </div>
-        <div>
-            <ul>
-                {% if request.user.is_authenticated %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    {% if request.user.is_authenticated %}
                     <li>
                         {{ request.user.email }}
                     </li>
                     <li>
                         <a href={% url 'user:logout' %}>Logout</a>
                     </li>
-                {% else %}
+                    {% else %}
                     <li>
                         <a href={% url 'user:login' %}>Login</a>
                     </li>
-                {% endif %}</ul>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
 
-    </nav>
-</header>
-<main>
-    {% if request.user.is_authenticated %}
+
+
+    </header>
+    <main>
+        {% if request.user.is_authenticated %}
 
         {% block products %}
         {% endblock products %}
@@ -70,29 +85,35 @@
         {% endblock new_item %}
         {% block product_bids %}
         {% endblock product_bids %}
-    {% else %}
+        {% else %}
         {% block login %}
         {% endblock login %}
-    {% endif %}
+        {% endif %}
 
-</main>
-<div class="shape"></div>
+    </main>
+    <div class="shape"></div>
 </body>
 <footer>
     <div class="my-links">
 
         <a href="https://www.facebook.com/yeamin21" style="color: #12579c"><i class="fa fa-facebook-square fa-2x"
-                                                                              aria-hidden="true"></i></a>
+                aria-hidden="true"></i></a>
         <a href="https://github.com/yeamin21" style="color:#181616"><i class="fa fa-github-square fa-2x"
-                                                                       aria-hidden="true"></i></a>
+                aria-hidden="true"></i></a>
         <a href="https://www.linkedin.com/in/yeamin21/" style="color: #084074"><i class="fa fa-linkedin-square fa-2x"
-                                                                                  aria-hidden="true"></i></a>
+                aria-hidden="true"></i></a>
         <a href="mailto:yeamin21@outlook.com" style="color: #398bd0"><i class="fa fa-envelope-square fa-2x"
-                                                                        aria-hidden="true"></i></a>
+                aria-hidden="true"></i></a>
     </div>
     <div class="project-info">
-        <p>This is a python web app written in django. The app has simple authentication system where entering email will automatically authorize existing user or create new user if none found. Users can place bid, update their bid, check other bids on a product. Users can create their own product listing with minimum bidding price and expiry datetime. Bid on a item has to be greater than the or equal to the minimum bid and has to be greater than the last bid.</p>
+        <p>This is a python web app written in django. The app has simple authentication system where entering email
+            will automatically authorize existing user or create new user if none found. Users can place bid, update
+            their bid, check other bids on a product. Users can create their own product listing with minimum bidding
+            price and expiry datetime. Bid on a item has to be greater than the or equal to the minimum bid and has to
+            be greater than the last bid.</p>
     </div>
-    <div class="last"><a href="https://github.com/yeamin21/UBay-eBay-Like"><i class="fa fa-book" aria-hidden="true"></i> Repository Link</a></div>
+    <div class="last"><a href="https://github.com/yeamin21/UBay-eBay-Like"><i class="fa fa-book" aria-hidden="true"></i>
+            Repository Link</a></div>
 </footer>
+
 </html>

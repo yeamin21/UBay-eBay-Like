@@ -1,81 +1,76 @@
 {% extends 'index.html' %}
 {% block product_details %}
-    <div class="product-details">
-        <div class="product">
-            <img src={{ product.photo.url }}>
+<div class="product-details">
+    <div class="product">
+        <img src={{ product.photo.url }}>
+    </div>
+    <div class="product-info">
+        <h3>Name: {{ product.name }}</h3>
+        <h3>Description: {{ product.description }}</h3>
+        <h3>Starting Bid: {{ product.minimum_bid_price }}</h3>
+        {% if last_bid %}
+        <h3>Latest Bid: {{ last_bid.bid_amount }}</h3>
+        {% endif %}
+
+        <h3>Bidding Ends At: {{ product.ends_at }}</h3>
+
+        <div class="bid">
+            <h4>Place Bid</h4>
+            <form method="post" action={% url 'bid:place' %}>
+                {% csrf_token %}
+                <input type="hidden" name="bid-product" value={{ product.id }}>
+                {% if product.is_expired %}
+                <input placeholder="auction time expired" type="number" disabled name="bid-amount">
+                <input disabled type="submit" value="Place Bid">
+                {% elif product.auctoneer != request.user %}
+                <input type="number" min={{ product.minimum_bid_price }} step="0.1" max="9999999" name="bid-amount">
+                <input type="submit" value="Place Bid">
+
+                {% elif product.is_expired %}
+                <input placeholder="auction time expired" type="number" disabled name="bid-amount">
+                <input disabled type="submit" value="Place Bid">
+                {% else %}
+                <input placeholder="you cant bid on your own item" type="number" disabled name="bid-amount">
+                <input disabled type="submit" value="Place Bid">
+                {% endif %}
+
+            </form>
         </div>
-        <div class="product-info">
-            <h3>Name: {{ product.name }}</h3>
-            <h3>Description: {{ product.description }}</h3>
-            <h3>Starting Bid: {{ product.minimum_bid_price }}</h3>
-            {% if last_bid %}
-                <h3>Latest Bid: {{ last_bid.bid_amount }}</h3>
-            {% endif %}
+    </div>
 
-            <h3>Bidding Ends At: {{ product.ends_at }}</h3>
+    <div class="bids">
 
-            <div class="bid">
-                <h4>Place Bid</h4>
-                <form method="post" action={% url 'bid:place' %}>
-                    {% csrf_token %}
-                    <input type="hidden" name="bid-product" value={{ product.id }}>
-                    {% if product.is_expired %}
-                        <input placeholder="auction time expired" type="number" disabled name="bid-amount">
-                        <input disabled type="submit" value="Place Bid">
-                    {% elif product.auctoneer != request.user %}
-                        <input type="number" min={{ product.minimum_bid_price }} step="0.1" name="bid-amount">
-                        <input type="submit" value="Place Bid">
-
-                    {% elif product.is_expired %}
-                        <input placeholder="auction time expired" type="number" disabled name="bid-amount">
-                        <input disabled type="submit" value="Place Bid">
-                    {% else %}
-                        <input placeholder="you cant bid on your own item" type="number" disabled name="bid-amount">
-                        <input disabled type="submit" value="Place Bid">
-                    {% endif %}
-
-                </form>
-            </div>
-        </div>
-
-        <div class="bids">
-
-            <table>
-                <thead>
+        <table>
+            <thead>
                 <tr>
                     <th>Bid Amount</th>
                     <th>User</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 {% for bid in bids %}
-                    <tr>
-                        <td>{{ bid.bid_amount }}</td>
-                        <td>{{ bid.bidder }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ bid.bid_amount }}</td>
+                    <td>{{ bid.bidder }}</td>
+                </tr>
                 {% empty %}
-                    <td colspan="2">No Bid Yet</td>
+                <td colspan="2">No Bid Yet</td>
                 {% endfor %}
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-        </div>
-        <div class='winner'>
-            {% if product.is_expired %}
-                {% if last_bid.bidder %}
-                    <h3>Winner: {{ last_bid.bidder }}</h3>
-                {% else %}
-                    <h3>No one placed a bid on this item</h3>
-                {% endif %}
-
-            {% endif %}
-        </div>
     </div>
+    <div class='winner'>
+        {% if product.is_expired %}
+        {% if last_bid.bidder %}
+        <h3>Winner: {{ last_bid.bidder }}</h3>
+        {% else %}
+        <h3>No one placed a bid on this item</h3>
+        {% endif %}
+
+        {% endif %}
+    </div>
+</div>
 
 
-{#    <style>#}
-{##}
-{##}
-{#    </style>#}
 {% endblock product_details %}
-

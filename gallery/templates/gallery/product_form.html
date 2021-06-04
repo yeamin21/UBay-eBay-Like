@@ -1,10 +1,21 @@
 {% extends 'index.html' %}
 {% block new_item %}
-    <div class="product-add"><form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Add">
-</form>
+<div class="product-add">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{form.media}}
+        {{form}}
+        <input type="submit" value="Add">
+        <script>
+            $(function () {
+                $("#id_ends_at").datetimepicker({
+                    format: 'Y-m-d H:i',
+                });
+            });
+        </script>
+    </form>
+
 </div>
 
 {% endblock new_item %}
